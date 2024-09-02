@@ -1,0 +1,11 @@
+from ultralytics import YOLOv10
+
+def build_yolov10(
+    model_path,
+    resume=False
+):  
+    
+    if not resume:
+        model = YOLOv10(model_path)
+
+    return model 
