@@ -1,7 +1,10 @@
 # MLV_IR_OD
 
-
-checkpoint: ```wget https://github.com/THU-MIG/yolov10/releases/download/v1.1/yolov10{n/s/m/b/l/x}.pt```
+checkpoint: 
+```
+mkdir checkpoints
+wget https://github.com/THU-MIG/yolov10/releases/download/v1.1/yolov10x.pt -O checkpoints/yolov10x.pt
+```
 
 
 ## Install

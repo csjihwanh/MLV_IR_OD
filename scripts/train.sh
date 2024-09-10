@@ -3,16 +3,17 @@ which_python=$(which python)
 echo "which python: ${which_python}"
 export PYTHONPATH=${PYTHONPATH}:${which_python}
 export PYTHONPATH=${PYTHONPATH}:/scratch/e1640a06/MLV_IR_OD
-export CUDA_VISIBLE_DEVICES='0,1'
+export CUDA_VISIBLE_DEVICES='0,1,2,3'
 
 echo "PYTHONPATH: ${PYTHONPATH}"
 
 NNODE=1
-NUM_GPUS=2
-NUM_CPU=3
+NUM_GPUS=8
+NUM_CPU=128
 
-python task/train.py \
-    --epochs 10 \
-    --batch 2 \
-    --dataset "hscai"
+nohup python task/train.py \
+    --epochs 256 \
+    --batch 48 \
+    --device "0,1,2,3" \
+    --dataset "hscai" > logs/train.log 2>&1 &
 

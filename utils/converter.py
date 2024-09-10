@@ -7,8 +7,8 @@ from collections import defaultdict
 from ultralytics.utils import LOGGER, TQDM
 
 def convert_coco(
-    labels_dir="../coco/annotations/",
-    save_dir="coco_converted/",
+    labels_dir=None,
+    save_dir="datasets/hscai",
     use_segments=False,
     use_keypoints=False,
     cls91to80=True,
@@ -35,10 +35,20 @@ def convert_coco(
         Generates output files in the specified output directory.
     """
 
+    assert labels_dir is not None
+
     save_dir = Path(save_dir)
     # Create dataset directory
     for p in save_dir / "labels", save_dir / "images":
         p.mkdir(parents=True, exist_ok=True)  # make dir
+
+    json_files = sorted(Path(labels_dir).resolve().glob("*.json"))
+
+    if not json_files:  # checks if the list is empty
+        raise FileNotFoundError(f"No JSON files found in {labels_dir}.")
+    else:
+        for json_file in json_files:
+            print(f"Processing file: {json_file}")
 
     # Import json
     for json_file in sorted(Path(labels_dir).resolve().glob("*.json")):
@@ -112,4 +122,4 @@ def convert_coco(
     LOGGER.info(f"COCO data converted successfully.\nResults saved to {save_dir.resolve()}")
 
 if __name__=='__main__':
-    convert_coco(labels_dir='/scratch/e1640a06/MLV_IR_OD/datasets/hscai')
+    convert_coco(labels_dir='datasets/hscai/')
