@@ -9,4 +9,4 @@ echo "PYTHONPATH: ${PYTHONPATH}"
 
 python task/test.py \
     --dataset "hscai" \
-    --checkpoint "runs/detect/train8/weights/best.pt"
+    --checkpoint "checkpoints/yolo10x_hscaionly_256epoch/best.pt"

@@ -5,13 +5,24 @@ from ultralytics import YOLOv10
 def train(args):
 
     model = YOLOv10('checkpoints/yolov10x.pt')
+    dual_train = False
 
     if args.dataset == 'hscai':
         dataset = 'hscai.yaml'
+    elif args.dataset == 'flir_adas':
+        dataset = 'flir_adas.yaml'
+    elif args.dataset == 'flir2hscai':
+        dual_train = True
     else :
         raise ValueError('dataset {dataset} is invalid')
     
-    model.train(data=dataset, device =args.device, epochs=args.epochs, batch=args.batch, imgsz=args.imgsz)
+    if dual_train:
+        print('dual train mode is activated')
+        model.train(data='flir_adas.yaml', device =args.device, epochs=100, batch=args.batch, imgsz=args.imgsz)
+        model.train(data='hscai.yaml', device =args.device, epochs=100, batch=args.batch, imgsz=args.imgsz)
+
+    else: 
+        model.train(data=dataset, device =args.device, epochs=args.epochs, batch=args.batch, imgsz=args.imgsz)
 
 
 if __name__ == '__main__':
