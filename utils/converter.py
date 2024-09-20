@@ -3,16 +3,18 @@ import json
 import cv2
 import numpy as np
 from collections import defaultdict
+import argparse
 
 from ultralytics.utils import LOGGER, TQDM
 
 def convert_coco(
-    labels_dir=None,
-    save_dir="datasets/hscai",
+    args
+):  
+
+    labels_dir=args.label_dir
+    save_dir=args.save_dir
     use_segments=False,
     use_keypoints=False,
-    cls91to80=True,
-):
     # original: ultralytics
     """
     Converts COCO dataset annotations to a YOLO annotation format  suitable for training YOLO models.
@@ -22,7 +24,6 @@ def convert_coco(
         save_dir (str, optional): Path to directory to save results to.
         use_segments (bool, optional): Whether to include segmentation masks in the output.
         use_keypoints (bool, optional): Whether to include keypoint annotations in the output.
-        cls91to80 (bool, optional): Whether to map 91 COCO class IDs to the corresponding 80 COCO class IDs.
 
     Example:
         ```python
@@ -111,15 +112,20 @@ def convert_coco(
             # Write
             with open((fn / f).with_suffix(".txt"), "a") as file:
                 for i in range(len(bboxes)):
-                    if use_keypoints:
-                        line = (*(keypoints[i]),)  # cls, box, keypoints
-                    else:
-                        line = (
-                            *(segments[i] if use_segments and len(segments[i]) > 0 else bboxes[i]),
-                        )  # cls, box or segments
+                    line = (
+                        *(segments[i] if use_segments and len(segments[i]) > 0 else bboxes[i]),
+                    )  # cls, box or segments
+                    print("line:", line, len(line))
                     file.write(("%g " * len(line)).rstrip() % line + "\n")
 
     LOGGER.info(f"COCO data converted successfully.\nResults saved to {save_dir.resolve()}")
 
 if __name__=='__main__':
-    convert_coco(labels_dir='datasets/hscai/')
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--label_dir", help='')
+    parser.add_argument("--save_dir", help='')
+
+    args = parser.parse_args()
+
+
+    convert_coco(args)

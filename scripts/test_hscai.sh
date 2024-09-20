@@ -9,4 +9,8 @@ echo "PYTHONPATH: ${PYTHONPATH}"
 
 python task/test.py \
     --dataset "hscai" \
-    --checkpoint "checkpoints/yolo10x_hscaionly_256epoch/best.pt"
+    --checkpoint "/workspace/MLV_IR_OD/runs/detect/train48/weights/last.pt" \
+    --device "3" \
+    --save_dir "result_uni_trans_last_fin.txt" \
+    --conf_threshold 0.01
+

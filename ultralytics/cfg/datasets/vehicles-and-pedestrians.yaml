@@ -1,0 +1,13 @@
+path: ../MLV_IR_OD/datasets/vehicles-and-pedestrians # dataset root dir
+train:  images/train # train images (relative to 'path') 
+val: images/val # val images (relative to 'path') 
+test: images/test #test-dev2017.txt
+
+names:
+  0: bus
+  1: car
+  2: bicycle
+  3: person
+  4: truck
+
+
